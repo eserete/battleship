@@ -1,12 +1,10 @@
 package com.example.battleship.util;
 
-import com.example.battleship.api.Spaceship;
-
 public final class Matrices {
 
     private Matrices(){}
 
-    static int[][] rotate(int[][] input) {
+    public static int[][] rotate(int[][] input) {
         int rows = input.length;
         int columns = input[0].length;
         int[][] output = new int[columns][rows];
@@ -16,6 +14,15 @@ public final class Matrices {
             }
         }
         return output;
+    }
+
+    public static int[][] copy2dArray(int[][] input) {
+            int length = input.length;
+            int[][] target = new int[length][input[0].length];
+            for (int i = 0; i < length; i++) {
+                System.arraycopy(input[i], 0, target[i], 0, input[i].length);
+            }
+            return target;
     }
 
     public static void print(int[][] input) {
@@ -30,11 +37,22 @@ public final class Matrices {
         System.out.println("\n");
     }
 
-    public static int[][] rotate(Spaceship spaceship, int numberOfRotations) {
-        int[][] result = spaceship.get();
+    public static int[][] rotate(int[][] input, int numberOfRotations) {
+        int[][] result = copy2dArray(input);
         for (int i = 0; i < numberOfRotations; i++) {
             result = rotate(result);
         }
         return result;
+    }
+
+    public static int[] hexadecimalToCoordinate(String hexadecimal) {
+        String [] coordinates = hexadecimal.split("x");
+        int x = Integer.parseInt(coordinates[0],16);
+        int y = Integer.parseInt(coordinates[1],16);
+        return new int[] {x, y};
+    }
+
+    public static String coordinateToHexadecimal(int x, int y) {
+        return String.format("%sx%s", Integer.toHexString(x), Integer.toHexString(y));
     }
 }
